@@ -1,0 +1,5 @@
+require 'gt06_server/version'
+require 'gt06_server/packs'
+require 'gt06_server/protocol'
+require 'gt06_server/session'
+require 'gt06_server/server'
