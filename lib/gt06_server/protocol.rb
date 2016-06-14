@@ -1,32 +1,34 @@
-module GalileoSkyServer
-  # Maybe it is not necessary abstraction
+module Gt06Server
   module Protocol
     module_function
 
-    def parse(io)
-      Pack.read(io)
+    # @param io [IO]
+    # @return pack [TerminalPacket]
+    def read_pack(io)
+      TerminalPacket.read(io)
     end
 
-    # @param pack [GalileoSkyServer::Pack]
-    def acknowledgment_pack(pack)
-      ack_pack = AcknowledgmentPack.new pack
-      ack_pack.crc = pack.calculated_crc
+    # @param pack [TerminalPacket]
+    # @return [ServerAckPacket, nil]
+    def replay_on(pack)
+      if [:login_message,:status_information].include?(pack.payload.message_type.to_sym)
+        acknowledgment_pack_for(pack)
+      end
+    end
+
+    # @param pack [TerminalPacket]
+    # @return pack [ServerAckPacket]
+    def acknowledgment_pack_for(pack)
+      ack_pack = ServerAckPacket.new
+      ack_pack.protocol_number = pack.payload.protocol_number
+      ack_pack.serial_number = pack.payload.serial_number
 
       ack_pack
     end
 
-    def format_payload(payload)
-      result = []
-      payload.each do |row|
-        result_row = {}
-        row.each do |tag|
-          tag_meta = Tags.find_by_id(tag.tag)
-          result_row[tag.tag.to_i] = { val: tag_meta.formatter.call(tag.data), desc: tag_meta.desc }
-        end
-        result << result_row
-      end
-
-      result
+    # TODO
+    def command_pack(command)
     end
+
   end
 end

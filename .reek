@@ -1,0 +1,12 @@
+---
+IrresponsibleModule:
+  enabled: false
+
+TooManyStatements:
+  max_statements: 15
+
+### Excluding directories
+
+# Directories below will not be scanned at all
+exclude_paths:
+  - test

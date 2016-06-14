@@ -1,47 +1,54 @@
-module GalileoSkyServer
+module Gt06Server
   class Session
     class SessionError < Exception; end
 
-    attr_reader :device_info, :io
+    attr_reader :terminal_id, :io, :info, :logger
 
-    def initialize(io)
+    def initialize(io, logger: Logger.new(STDOUT))
       @io          = io
-      @device_info = {}
+      @terminal_id = ''
+      @info        = { received_count: 0, sent_count:0 }
+      @logger      = logger
+
+      logger.debug 'New session has been created'
     end
 
+    # @yield [Hash] information_content of packet
     # @raise EOF
-    def run
-      pack = handle_head_pack(Protocol.parse(@io))
-
-      @io.write(Protocol.acknowledgment_pack(pack).to_binary_s)
+    def run(&block)
+      handle_head_packet(Protocol.read_pack(@io))
 
       loop do
-        main_pack = Protocol.parse(@io)
-
-        Protocol.format_payload(main_pack.payload).each do |data_row|
-          yield(data_row, @device_info)
-        end
-
-        @io.write(Protocol.acknowledgment_pack(main_pack).to_binary_s)
+        handle_main_pack(Protocol.read_pack(@io), &block)
       end
     end
 
-    # @param pack [Pack]
-    # @raise SessionError
-    # @return [Pack]
-    def handle_head_pack(pack)
-      payload = Protocol.format_payload(pack.payload)
+    private
 
-      @device_info[:hardware_version] = payload[0][0x01][:val] # FIXME
-      @device_info[:software_version] = payload[0][0x02][:val]
-      @device_info[:imei]             = payload[0][0x03][:val]
-      @device_info[:devise_id]        = payload[0][0x04][:val]
+    def handle_head_packet(pack)
+      if pack.payload.message_type != :login_message
+        raise SessionError, 'Expect login message first but received: ' + pack.to_hex
+      end
 
-      # unless @device_info[:hardware_version] && @device_info[:software_version] && @device_info[:imei] && @device_info[:devise_id]
-      #   raise SessionError, "Empty the required parameters: #{@device_info}"
-      # end
+      @terminal_id = pack.payload.information_content.terminal_id.to_hex
+      @info[:received_count] += 1
+      @io.write(Protocol.replay_on(pack).to_binary_s)
+      @info[:sent_count] += 1
 
-      pack
+      logger.debug "terminal_id: #{@terminal_id} , info #{@info}"
     end
+
+    def handle_main_pack(pack, &block)
+      logger.debug "terminal_id: #{@terminal_id} , info #{@info}, message: #{pack}"
+      @info[:received_count] += 1
+
+      block.yield(pack.payload.information_content)
+
+      if(ack_pack = Protocol.replay_on(pack))
+        @io.write(ack_pack.to_binary_s)
+        @info[:sent_count] += 1
+      end
+    end
+
   end
 end
