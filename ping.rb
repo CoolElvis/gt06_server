@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'socket'
 
-
-socket = TCPSocket.new('localhost',5000)
+socket = TCPSocket.new('localhost', 5000)
 
 socket.send(['78780D01012345678901234500018CDD0D0A'].pack('H*'), 0)
 p socket.gets

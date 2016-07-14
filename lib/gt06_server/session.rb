@@ -1,13 +1,14 @@
+# frozen_string_literal: true
 module Gt06Server
   class Session
-    class SessionError < Exception; end
+    class SessionError < RuntimeError; end
 
     attr_reader :terminal_id, :io, :info, :logger
 
     def initialize(io, logger: Logger.new(STDOUT))
       @io          = io
       @terminal_id = ''
-      @info        = { received_count: 0, sent_count:0 }
+      @info        = { received_count: 0, sent_count: 0 }
       @logger      = logger
 
       logger.debug 'New session has been created'
@@ -44,11 +45,10 @@ module Gt06Server
 
       block.yield(pack.payload.information_content)
 
-      if(ack_pack = Protocol.replay_on(pack))
+      if (ack_pack = Protocol.replay_on(pack))
         @io.write(ack_pack.to_binary_s)
         @info[:sent_count] += 1
       end
     end
-
   end
 end

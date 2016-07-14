@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Gt06Server
   module Protocol
     module_function
@@ -11,7 +12,7 @@ module Gt06Server
     # @param pack [TerminalPacket]
     # @return [ServerAckPacket, nil]
     def replay_on(pack)
-      if [:login_message,:status_information].include?(pack.payload.message_type.to_sym)
+      if [:login_message, :status_information].include?(pack.payload.message_type.to_sym)
         acknowledgment_pack_for(pack)
       end
     end
@@ -29,6 +30,5 @@ module Gt06Server
     # TODO
     def command_pack(command)
     end
-
   end
 end

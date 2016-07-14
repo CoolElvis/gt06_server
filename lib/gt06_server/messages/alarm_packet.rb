@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Gt06Server
   module Messages
     class AlarmPacket < BinData::Record
@@ -37,4 +38,3 @@ module Gt06Server
     end
   end
 end
-

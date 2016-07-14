@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Gt06Server
   module Messages
     class GpsInformation < BinData::Record
@@ -21,7 +22,7 @@ module Gt06Server
         end
       end
 
-       struct :quantity_satellites do
+      struct :quantity_satellites do
         bit4 :length_gps
         bit4 :satellites
       end
@@ -31,13 +32,12 @@ module Gt06Server
       struct :course_status do
         bit1 :null_1
         bit1 :null_2
-        bit1 :gps_positioning_type  #GPS real-time/differential positioning
-        bit1 :is_gps_positioning    #GPS having been positioning or not
-        bit1 :longitude_bit         #East Longitude, West Longitude
-        bit1 :latitude_bit          #South Latitude, North Latitude
+        bit1 :gps_positioning_type  # GPS real-time/differential positioning
+        bit1 :is_gps_positioning    # GPS having been positioning or not
+        bit1 :longitude_bit         # East Longitude, West Longitude
+        bit1 :latitude_bit          # South Latitude, North Latitude
         bit10 :course
       end
-
     end
   end
 end

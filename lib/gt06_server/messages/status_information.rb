@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Gt06Server
   module Messages
     # 5.3. Alarm Packet (Combined information packet of GPS, LBS and Status)
@@ -100,7 +101,6 @@ module Gt06Server
         end
       end
 
-
       struct :terminal_information do
         bit1 :electricity_bit
         bit1 :gps_bit
@@ -116,4 +116,3 @@ module Gt06Server
     end
   end
 end
-

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # config valid only for current version of Capistrano
 lock '3.5.0'
 
@@ -39,7 +40,4 @@ set :linked_dirs, fetch(:linked_dirs, []).push('logs', 'pids')
 set :keep_releases, 5
 
 namespace :deploy do
-
-
-
 end

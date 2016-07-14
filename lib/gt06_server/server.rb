@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'celluloid/current'
 require 'celluloid/io'
 require 'logger'
@@ -27,7 +28,6 @@ module Gt06Server
         args: [host, port, block, logger: logger]
       )
     end
-
 
     def initialize(host, port, handler, logger: Logger.new(STDOUT))
       @logger = logger

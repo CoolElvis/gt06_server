@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Gt06Server
   module Messages
     class LoginMessage < BinData::Record
@@ -17,7 +18,5 @@ module Gt06Server
 
       uint64be :terminal_id
     end
-
   end
 end
-

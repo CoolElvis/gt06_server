@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Gt06Server
   module Messages
     class DateTimeInformation < BinData::Primitive
