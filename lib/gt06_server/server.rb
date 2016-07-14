@@ -2,15 +2,17 @@
 require 'celluloid/current'
 require 'celluloid/io'
 require 'logger'
+require 'concurrent'
 
 module Gt06Server
   class Server
-    include Celluloid::IO
+    #TODO replace to an explicit logger
 
-    attr_reader :host, :port, :logger
+    attr_reader :host, :port, :options
     finalizer :shutdown
 
-    class RunError < StandardError; end
+    class RunError < StandardError;
+    end
 
     # @param [String] host
     # @param [Integer] port
@@ -29,10 +31,18 @@ module Gt06Server
       )
     end
 
-    def initialize(host, port, handler, logger: Logger.new(STDOUT))
-      @logger = logger
-      @host = host
-      @port = port
+    def initialize(host, port, handler, options: {} )
+
+      @logger = options.fetch(:logger, Logger.new(STDOUT))
+      @host   = host
+      @port   = port
+
+      @sessions = Concurrent::Map.new
+
+      killer = SessionKiller.new(@sessions, session_timeout)
+      killer.run
+
+      @info = { killer_info: killer.info }
 
       async.run handler
     end
@@ -50,21 +60,23 @@ module Gt06Server
     end
 
     def handle_connection(socket, handler)
-      addr = socket.peeraddr
-      @logger.info "Connect #{addr}"
+      begin
+        addr = socket.peeraddr
+        @logger.info "Connect #{addr}"
 
-      Session.new(socket, logger: logger).run(&handler)
+        session = Session.new(socket, logger: logger)
+        @sessions[session.object_id] = session
 
-    rescue EOFError => exception
-      @logger.warn "#{addr}  #{exception.message}"
-      socket.close if socket
-      @logger.info "Disconnect #{addr}"
-
-    rescue StandardError => exception
-      socket.close if socket
-      @logger.info "Disconnect #{addr}"
-      @logger.error exception.message
-      @logger.error exception.backtrace
+        session.run(&handler)
+      rescue EOFError => exception
+        @logger.warn "#{addr}  #{exception.message}"
+      rescue StandardError => exception
+        @logger.error exception.message
+        @logger.error exception.backtrace
+      ensure
+        socket.close if socket
+        @logger.info "Disconnect #{addr}"
+      end
     end
   end
 end

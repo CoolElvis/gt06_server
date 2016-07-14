@@ -5,7 +5,7 @@
 /coverage/
 /doc/
 /pkg/
-/logs/*
+/log/*
 /pids/*
 /spec/reports/
 /tmp/

@@ -9,6 +9,7 @@ gem 'celluloid-io'
 gem 'ffi'
 gem 'rake'
 gem 'daemons'
+gem 'concurrent-ruby'
 
 group :test do
   gem 'minitest'
