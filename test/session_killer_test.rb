@@ -1,7 +1,7 @@
 require_relative 'test_helper'
 
 module Gt06Server
-  class Gp06ServerTest < MiniTest::Test
+  class Gp06ServerSessionKillerTest < MiniTest::Test
     def setup
     end
 
