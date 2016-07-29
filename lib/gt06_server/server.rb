@@ -6,9 +6,9 @@ require 'concurrent'
 
 module Gt06Server
   class Server
-    #TODO replace to an explicit logger
+    include Celluloid::IO
 
-    attr_reader :host, :port, :options
+    attr_reader :host, :port, :sessions
     finalizer :shutdown
 
     class RunError < StandardError;
@@ -18,7 +18,7 @@ module Gt06Server
     # @param [Integer] port
     # @param [Logger] logger
     # @yields [Hash] information_content of packet
-    def self.run(host, port, logger: Logger.new(STDOUT), &block)
+    def self.run(host, port, options: {}, &block)
       actor = Celluloid::Actor['Gt06Server']
 
       if actor&.alive?
@@ -27,7 +27,7 @@ module Gt06Server
 
       Gt06Server::Server.supervise(
         as:   'Gt06Server',
-        args: [host, port, block, logger: logger]
+        args: [host, port, block, options: {logger: Logger.new(STDOUT)}.merge(options) ]
       )
     end
 
@@ -39,7 +39,7 @@ module Gt06Server
 
       @sessions = Concurrent::Map.new
 
-      killer = SessionKiller.new(@sessions, session_timeout)
+      killer = SessionKiller.new(@sessions, options.fetch(:session_timeout, nil), interval: options.fetch(:killer_interval, nil))
       killer.run
 
       @info = { killer_info: killer.info }
@@ -64,7 +64,7 @@ module Gt06Server
         addr = socket.peeraddr
         @logger.info "Connect #{addr}"
 
-        session = Session.new(socket, logger: logger)
+        session = Session.new(socket, logger: @logger)
         @sessions[session.object_id] = session
 
         session.run(&handler)

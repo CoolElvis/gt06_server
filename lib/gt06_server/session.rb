@@ -8,7 +8,7 @@ module Gt06Server
     def initialize(io, logger: Logger.new(STDOUT))
       @io          = io
       @terminal_id = ''
-      @info        = { received_count: 0, sent_count: 0, last_recievd_at: Time.now}
+      @info        = { received_count: 0, sent_count: 0, last_received_at: Time.now}
       @logger      = logger
 
       logger.debug 'New session has been created'
