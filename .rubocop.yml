@@ -26,3 +26,7 @@ Style/AsciiComments:
 Style/Documentation:
   Description: 'Document classes and non-namespace modules.'
   Enabled: false
+
+Style/CommentIndentation:
+  Description: 'Indentation of comments.'
+  Enabled: fasle
