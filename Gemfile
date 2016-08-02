@@ -2,14 +2,9 @@
 source 'https://rubygems.org'
 
 # Specify your gem's dependencies in gt06_server.gemspec
-# gemspec
+gemspec
 
-gem 'bindata'
-gem 'celluloid-io'
-gem 'ffi'
 gem 'rake'
-gem 'daemons'
-gem 'concurrent-ruby'
 
 group :test do
   gem 'minitest'

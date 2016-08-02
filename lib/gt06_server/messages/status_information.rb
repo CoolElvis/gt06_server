@@ -69,7 +69,6 @@ module Gt06Server
           [:normal, :shock, :power_cut, :low_battery, :sos][alarm_status_bit]
         end
 
-        # TODO
         def set(value)
           self.alarm_status_bit = [:normal, :shock, :power_cut, :low_battery, :sos].index(value)
         end

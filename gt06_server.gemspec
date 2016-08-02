@@ -9,11 +9,10 @@ Gem::Specification.new do |spec|
   spec.authors = ['CoolElvis']
   spec.email   = ['elvisplus2@gmail.com']
 
-  spec.summary                       = 'TODO: Write a short summary, because Rubygems requires one.'
-  spec.description                   = 'TODO: Write a longer description or delete this line.'
-  spec.homepage                      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary                       = 'TCP server for gt06(TK100) gps tracker'
+  spec.description                   = 'TCP server for gt06(TK100) gps tracker'
+  spec.homepage                      = 'https://github.com/CoolElvis/gt06_server'
   spec.license                       = 'MIT'
-  spec.metadata['allowed_push_host'] = "TODO: Set to 'http://mygemserver.com'"
 
   raise 'RubyGems 2.0 or newer is required to protect against public gem pushes.' unless spec.respond_to?(:metadata)
 
@@ -21,6 +20,10 @@ Gem::Specification.new do |spec|
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
+
+  spec.add_runtime_dependency 'bindata', '~>2.3'
+  spec.add_runtime_dependency 'celluloid-io', '~>0.17.3'
+  spec.add_runtime_dependency 'concurrent-ruby', '~>1.0.2'
 
   spec.add_development_dependency 'bundler', '~> 1.11'
   spec.add_development_dependency 'rake', '~> 10.0'

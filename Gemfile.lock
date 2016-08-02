@@ -1,3 +1,11 @@
+PATH
+  remote: .
+  specs:
+    gt06_server (0.0.1)
+      bindata (~> 2.3)
+      celluloid-io (~> 0.17.3)
+      concurrent-ruby (~> 1.0.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -52,15 +60,12 @@ GEM
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     concurrent-ruby (1.0.2)
-    daemons (1.2.3)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     docile (1.1.5)
     equalizer (0.0.11)
-    ffi (1.9.10)
     ffi (1.9.10-java)
     hitimes (1.2.4)
-    hitimes (1.2.4-java)
     i18n (0.7.0)
     ice_nine (0.11.2)
     json (1.8.3)
@@ -71,7 +76,6 @@ GEM
       net-ssh (>= 2.6.5)
     net-ssh (3.2.0)
     nio4r (1.2.1)
-    nio4r (1.2.1-java)
     parser (2.3.1.2)
       ast (~> 2.2)
     powerpack (0.1.1)
@@ -127,15 +131,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bindata
+  bundler (~> 1.11)
   capistrano
   capistrano-bundler
   capistrano-rbenv
-  celluloid-io
   codeclimate-test-reporter
-  concurrent-ruby
-  daemons
-  ffi
+  gt06_server!
   minitest
   pry
   pry-byebug

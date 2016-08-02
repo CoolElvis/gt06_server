@@ -43,7 +43,7 @@ module Gt06Server
       logger.debug "terminal_id: #{@terminal_id} , info #{@info}, message: #{pack}"
       @info[:received_count] += 1
 
-      block.yield(pack.payload.information_content)
+      block.yield(pack.payload)
 
       if (ack_pack = Protocol.replay_on(pack))
         @io.write(ack_pack.to_binary_s)

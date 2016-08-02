@@ -20,7 +20,7 @@ module Gt06Server
         session = Session.new(mock_protocol)
         assert_raises EOFError do
           session.run do |content|
-           assert_equal(content,location_pack.payload.information_content)
+           assert_equal(content,location_pack.payload)
           end
         end
       end
