@@ -25,7 +25,7 @@ require 'gt06_server'
 
 log_path = File.expand_path(File.join(File.dirname(__FILE__), 'log/server.log'))
 
-Gt06Server::Server.run('0.0.0.0', 9000, oprions: {logger: Logger.new(log_path)}) do |message|
+Gt06Server::Server.run('0.0.0.0', 9000, options: {logger: Logger.new(log_path)}) do |message|
   p message
 end
 
