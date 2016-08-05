@@ -1,7 +1,7 @@
 require_relative 'test_helper'
 
 module Gt06Server
-  class Gp06ServerSessionKillerTest < MiniTest::Test
+  class Gp06ServerSessionSweeperTest < MiniTest::Test
     def setup
     end
 
@@ -11,7 +11,7 @@ module Gt06Server
 
       Celluloid.boot
 
-      server = Server.run(host,port, options:{session_timeout: 1, killer_interval: 1}).actors.first
+      server = Server.run(host,port, options:{session_timeout: 1, sweep_interval: 1}).actors.first
       sleep 0.5
 
       socket = TCPSocket.new(host, port)

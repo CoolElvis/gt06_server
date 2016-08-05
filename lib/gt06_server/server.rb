@@ -39,10 +39,10 @@ module Gt06Server
 
       @sessions = Concurrent::Map.new
 
-      killer = SessionKiller.new(@sessions, options.fetch(:session_timeout, nil), interval: options.fetch(:killer_interval, nil))
-      killer.run
+      sweeper = SessionSweeper.new(@sessions, options.fetch(:session_timeout, nil), interval: options.fetch(:sweep_interval, nil))
+      sweeper.run
 
-      @info = { killer_info: killer.info }
+      @info = { sweeper_info: sweeper.info }
 
       async.run handler
     end

@@ -1,6 +1,6 @@
 require 'concurrent'
 
-class SessionKiller
+class SessionSweeper
   attr_reader :sessions , :info, :timeout, :interval
 
   def initialize(sessions, timeout = 60, interval: 30)
@@ -26,7 +26,6 @@ class SessionKiller
       @info[:live] = @sessions.size
       @info[:count] += 1
     end
-
 
     timer.execute
   end
