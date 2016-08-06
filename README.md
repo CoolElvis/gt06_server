@@ -36,11 +36,13 @@ sleep
 The message is a Hash like:  
 
 ````ruby 
-{ :packet_length       => 10,
+{ 
+  :packet_length       => 10,
   :protocol_number     => 19,
   :message_type        => :status_information,
   :information_content =>
-    { :terminal_information =>
+    { 
+      :terminal_information =>
         {
           :electricity_bit => 0,
           :gps_bit         => 0,
