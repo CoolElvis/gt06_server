@@ -25,7 +25,7 @@ require 'gt06_server'
 
 log_path = File.expand_path(File.join(File.dirname(__FILE__), 'log/server.log'))
 
-Gt06Server::Server.run('0.0.0.0', 9000, options: {logger: Logger.new(log_path)}) do |message|
+Gt06Server::Server.run('0.0.0.0', 9000, options: { logger: Logger.new(log_path) }) do |message|
   p message
 end
 
@@ -59,5 +59,5 @@ The message is a Hash like:
   :serial_number       => 48
 }
 ````
-The content of 'information_content' depends on 'message_type'  
+The content of 'information_content' depends on 'message_type'
 See lib/gt06_server/messages for details  
