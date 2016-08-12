@@ -17,7 +17,7 @@ module Gt06Server
     # @yield [Hash] information_content of packet
     # @raise EOF
     def run(&block)
-      handle_head_packet(Protocol.read_pack(@io))
+      handle_head_pack(Protocol.read_pack(@io))
 
       loop do
         handle_main_pack(Protocol.read_pack(@io), &block)
@@ -26,7 +26,7 @@ module Gt06Server
 
     private
 
-    def handle_head_packet(pack)
+    def handle_head_pack(pack)
       if pack.payload.message_type != :login_message
         raise SessionError, 'Expect login message first but received: ' + pack.to_hex
       end
