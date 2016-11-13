@@ -18,11 +18,14 @@ module Gt06Server
 
       Protocol.stub(:read_pack, mock_read_pack) do
         session = Session.new(mock_protocol)
+        sleep 1
         assert_raises EOFError do
           session.run do |content|
            assert_equal(content,location_pack.payload)
           end
         end
+
+        assert_equal(Time.now.to_s, session.info[:last_received_at].to_s)
       end
 
       mock_protocol.verify

@@ -42,10 +42,13 @@ module Gt06Server
     def handle_main_pack(pack, &block)
       logger.debug "terminal_id: #{@terminal_id} , info #{@info}, message: #{pack}"
       @info[:received_count] += 1
+      @info[:last_received_at] = Time.now
+
 
       block.yield(pack.payload)
 
-      if (ack_pack = Protocol.replay_on(pack))
+      ack_pack = Protocol.replay_on(pack)
+      if (ack_pack)
         @io.write(ack_pack.to_binary_s)
         @info[:sent_count] += 1
       end
