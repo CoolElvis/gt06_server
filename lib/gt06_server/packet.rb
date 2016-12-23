@@ -14,17 +14,19 @@ module Gt06Server
   class TerminalPacket < BinData::Record
     class << self
       attr_accessor :types
-    end
 
-    TerminalPacket.types = {
-      login_message:                 0x01,
-      location_data:                 0x12,
-      status_information:            0x13,
-      string_information:            0x15,
-      alarm_packet:                  0x16,
-      gps_query_address_information: 0x1A,
-      command_information:           0x80
-    }
+      def types
+        {
+            login_message:                 0x01,
+            location_data:                 0x12,
+            status_information:            0x13,
+            string_information:            0x15,
+            alarm_packet:                  0x16,
+            gps_query_address_information: 0x1A,
+            command_information:           0x80
+        }
+      end
+    end
 
     # Data Packet Format
     # The communication is transferred asynchronously in bytes.
