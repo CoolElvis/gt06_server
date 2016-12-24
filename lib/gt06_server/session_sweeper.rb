@@ -46,6 +46,7 @@ class SessionSweeper
         @logger.info "(#{time}) Execution successfully returned #{result}"
       else
         @logger.error "(#{time}) Execution failed with error #{exception}"
+        @logger.error "(#{time}) #{exception.backtrace}"
         # Airbrake.notify(exception)
       end
     end
