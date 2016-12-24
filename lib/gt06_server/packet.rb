@@ -13,7 +13,7 @@ require_relative 'messages/gps_query_address'
 module Gt06Server
   class TerminalPacket < BinData::Record
     class << self
-      attr_accessor :types
+      attr_reader :types
 
       def types
         {

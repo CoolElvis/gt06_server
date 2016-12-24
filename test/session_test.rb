@@ -8,6 +8,7 @@ module Gt06Server
 
       mock_protocol = MiniTest::Mock.new
       mock_protocol.expect(:write, true, [Protocol.replay_on(login_pack).to_binary_s])
+      mock_protocol.expect(:peeraddr, 'true')
 
       mock_read_pack = MiniTest::Mock.new
       mock_read_pack.expect(:call, login_pack, [mock_protocol])
@@ -34,6 +35,9 @@ module Gt06Server
 
     def test_incorrect_sequence
       io = StringIO.new(['787808134B040300010011061F0D0A'].pack('H*'))
+      def io.peeraddr
+        'localhost'
+      end
 
       session = Session.new(io)
       assert_raises Session::SessionError do

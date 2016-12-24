@@ -3,10 +3,11 @@ module Gt06Server
   class Session
     class SessionError < RuntimeError; end
 
-    attr_reader :terminal_id, :io, :info, :logger
+    attr_reader :terminal_id, :io, :info, :logger, :addr
 
     def initialize(io, logger: Logger.new(STDOUT))
       @io          = io
+      @addr        = io.peeraddr
       @terminal_id = ''
       @info        = { received_count: 0, sent_count: 0, last_received_at: Time.now}
       @logger      = logger
@@ -22,6 +23,10 @@ module Gt06Server
       loop do
         handle_main_pack(Protocol.read_pack(@io), &block)
       end
+    end
+
+    def inspect
+      "#{object_id} Terminal id:#{@terminal_id}, ip: #{@addr}, #{@info}"
     end
 
     private

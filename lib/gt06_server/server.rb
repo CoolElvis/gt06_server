@@ -32,17 +32,19 @@ module Gt06Server
     end
 
     def initialize(host, port, handler, options: {} )
-
       @logger = options.fetch(:logger, Logger.new(STDOUT))
       @host   = host
       @port   = port
 
       @sessions = Concurrent::Map.new
 
-      sweeper = SessionSweeper.new(@sessions, options.fetch(:session_timeout, nil), interval: options.fetch(:sweep_interval, nil))
+      sweeper = SessionSweeper.new(
+          @sessions,
+          options.fetch(:session_timeout, nil),
+          interval: options.fetch(:sweep_interval, nil),
+          logger: @logger
+      )
       sweeper.run
-
-      @info = { sweeper_info: sweeper.info }
 
       async.run handler
     end
