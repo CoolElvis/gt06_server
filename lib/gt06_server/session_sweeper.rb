@@ -14,16 +14,15 @@ module Gt06Server
 
     def run
       timer = Concurrent::TimerTask.new(execution_interval: @interval) do
-        time_now = Time.now
         @sessions.each_pair do |key, session|
-          if (session.info[:last_received_at] + @timeout) < time_now
-            session.io.setsockopt(Socket::SOL_SOCKET, Socket::SO_LINGER, [1,0].pack('ii'))
-            session.io.close
-
-            @logger.debug "Session #{session.inspect} has been closed"
-
+          if expired_session?(session)
+            unless session.socket.closed?
+              session.socket.setsockopt(Socket::SOL_SOCKET, Socket::SO_LINGER, [1, 0].pack('ii'))
+              session.socket.close
+            end
             @info[:killed] += 1
             @sessions.delete(key)
+            @logger.debug "Session #{session.inspect} has been killed"
           end
         end
 
@@ -36,6 +35,13 @@ module Gt06Server
       timer.add_observer(SessionSweeperObserver.new(@logger))
       timer.execute
     end
+
+    private
+
+    def expired_session?(session)
+      (session.info[:last_received_at] + @timeout) < Time.now
+    end
+
 
     class SessionSweeperObserver
       def initialize(logger)

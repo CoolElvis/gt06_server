@@ -37,7 +37,7 @@ module Gt06Server
 
       server_pack = Protocol.replay_on(Protocol.read_pack(io))
 
-      assert_equal(server_pack, nil)
+      assert_nil server_pack
     end
   end
 end
