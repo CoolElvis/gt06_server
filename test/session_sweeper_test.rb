@@ -1,7 +1,7 @@
 require_relative 'test_helper'
 
 module Gt06Server
-  class Gp06ServerSessionSweeperTest < MiniTest::Test
+  class SessionSweeperTest < MiniTest::Test
     def setup
     end
 
@@ -20,7 +20,6 @@ module Gt06Server
       sleep 0.5
       assert_equal(1, server.sessions.size)
       sleep 1.5
-      p server.sessions
       assert_equal(0, server.sessions.size)
 
       assert_raises Errno::ECONNRESET do

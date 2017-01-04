@@ -22,7 +22,7 @@ module Gt06Server
         sleep 1
         assert_raises EOFError do
           session.run do |content|
-           assert_equal(content,location_pack.payload)
+           assert_equal(content,location_pack.payload.snapshot.merge!(terminal_id: '0123456789012345'))
           end
         end
 
@@ -42,6 +42,24 @@ module Gt06Server
       session = Session.new(io)
       assert_raises Session::SessionError do
         session.run
+      end
+    end
+
+    def test_terminal_id
+      io = StringIO.new(['78780D01012345678901234500018CDD0D0A78781F120B081D112E10CC027AC7EB0C46584900148F01CC00287D001FB8000373770D0A'].pack('H*'))
+      def io.peeraddr
+        'localhost'
+      end
+
+      def io.write(*args)
+      end
+
+      session = Session.new(io)
+      assert_raises EOFError do
+        session.run do |message|
+          assert_equal('0123456789012345', message[:terminal_id])
+          p message
+        end
       end
     end
   end

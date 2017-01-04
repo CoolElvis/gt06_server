@@ -50,7 +50,7 @@ module Gt06Server
       @info[:last_received_at] = Time.now
 
 
-      block.yield(pack.payload)
+      block.yield({terminal_id: @terminal_id}.merge!(pack.payload.snapshot))
 
       ack_pack = Protocol.replay_on(pack)
       if (ack_pack)
