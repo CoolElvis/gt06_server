@@ -8,10 +8,10 @@ module Gt06Server
         # LAC 2 0x28 0x7D
         # Cell ID 3 0x00 0x1F 0xB8
 
-      string :mcc, read_length: 2
-      string :mnc, read_length: 1
-      string :lac, read_length: 2
-      string :cell_id, read_length: 3
+      uint16be :mcc
+      uint8 :mnc
+      uint16be :lac
+      uint24be :cell_id
     end
   end
 end

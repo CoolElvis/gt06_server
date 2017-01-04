@@ -78,7 +78,7 @@ module Gt06Server
     bit8 :packet_length, value: 5
     bit8 :protocol_number
     bit16 :serial_number
-    bit16 :error_check, value: lambda {
+    bit16 :error_check, value: -> {
       CRC16.calc(packet_length.to_binary_s + protocol_number.to_binary_s + serial_number.to_binary_s)
     }
     bit16 :stop_bit, value: 0x0D0A

@@ -58,7 +58,6 @@ module Gt06Server
       assert_raises EOFError do
         session.run do |message|
           assert_equal('0123456789012345', message[:terminal_id])
-          p message
         end
       end
     end
