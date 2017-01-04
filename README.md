@@ -40,6 +40,7 @@ The message is a Hash like:
   :packet_length       => 10,
   :protocol_number     => 19,
   :message_type        => :status_information,
+  :terminal_id         => "0123456789012345",
   :information_content =>
     { 
       :terminal_information =>
