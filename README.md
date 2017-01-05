@@ -33,7 +33,7 @@ sleep
 
 ````
 
-The message is a Hash like:  
+Status message:  
 
 ````ruby 
 { 
@@ -60,6 +60,48 @@ The message is a Hash like:
   :serial_number       => 48
 }
 ````
+
+Location message: 
+```ruby
+{
+    :packet_length       => 31,
+    :protocol_number     => 18,
+    :message_type        => :location_data,
+    :information_content =>
+        {
+            :date_time => '2011-08-29 17:46:16 +0400',
+            :gps       =>
+                {
+                    :quantity_satellites =>
+                        {
+                            :length_gps => 12, :satellites => 12
+                        },
+                    :latitude            => 23.111668333333334,
+                    :longitude           => 114.409285,
+                    :speed               => 0,
+                    :course_status       =>
+                        {
+                            :null_1               => 0,
+                            :null_2               => 0,
+                            :gps_positioning_type => 0,
+                            :is_gps_positioning   => 1,
+                            :longitude_bit        => 0,
+                            :latitude_bit         => 1,
+                            :course               => 143
+                        }
+                },
+            :lbs       =>
+                {
+                    :mcc     => 460,
+                    :mnc     => 0,
+                    :lac     => 10365,
+                    :cell_id => 8120
+                }
+        },
+    :serial_number       => 3
+}
+```
+
 The content of 'information_content' depends on 'message_type'
 See lib/gt06_server/messages for details  
 
