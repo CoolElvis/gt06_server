@@ -63,7 +63,7 @@ The message is a Hash like:
 The content of 'information_content' depends on 'message_type'
 See lib/gt06_server/messages for details  
 
-Copyright
+###Copyright
 
 Copyright (c) 2016 CoolElvis and contributors.
 
