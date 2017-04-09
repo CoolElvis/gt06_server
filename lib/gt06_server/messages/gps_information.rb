@@ -39,5 +39,13 @@ module Gt06Server
         bit10 :course
       end
     end
+
+    def lat
+      latitude_bit ? latitude : (latitude * -1)
+    end
+
+    def lon
+      longitude_bit ? longitude : (longitude * -1)
+    end
   end
 end
