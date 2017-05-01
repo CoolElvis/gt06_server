@@ -12,17 +12,14 @@ module Gt06Server
     attr_reader :host, :port, :sessions
     finalizer :shutdown
 
-    class RunError < StandardError
-    end
+    class RunError < StandardError; end
 
     # @param [String] host
     # @param [Integer] port
-    # @param [Logger] logger
+    # @param [Hash] options
     # @yields [Hash] information_content of packet
     def self.run(host, port, options: {}, &block)
-      actor = Celluloid::Actor['Gt06Server']
-
-      if actor&.alive?
+      if Celluloid::Actor['Gt06Server']&.alive?
         raise RunError, 'Attempt to run more than one the Gt06Server'
       end
 
@@ -33,20 +30,12 @@ module Gt06Server
     end
 
     def initialize(host, port, handler, options: {})
-      @logger = options.fetch(:logger, Logger.new(STDOUT))
-      @host   = host
-      @port   = port
-
+      @logger   = options.fetch(:logger, Logger.new(STDOUT))
+      @host     = host
+      @port     = port
       @sessions = Concurrent::Map.new
 
-      sweeper = SessionSweeper.new(
-        @sessions,
-        options.fetch(:session_timeout, nil),
-        interval: options.fetch(:sweep_interval, nil),
-        logger:   @logger
-      )
-      sweeper.run
-
+      sessions_sweeper_run(@sessions, options)
       async.run handler
     end
 
@@ -56,6 +45,15 @@ module Gt06Server
       @server = TCPServer.new(@host, @port)
       @logger.info "Gt06Server has been run on host:#{@host} port: #{@port}"
       loop { async.handle_connection(@server.accept, handler) }
+    end
+
+    def sessions_sweeper_run(sessions, options)
+      SessionSweeper.new(
+        sessions,
+        timeout:  options.fetch(:session_timeout, nil),
+        interval: options.fetch(:sweep_interval, nil),
+        logger:   options.fetch(:logger, Logger.new(STDOUT))
+      ).run
     end
 
     def shutdown

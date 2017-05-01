@@ -4,13 +4,16 @@ require 'concurrent'
 
 module Gt06Server
   class SessionSweeper
-    attr_reader :sessions , :info, :timeout, :interval, :logger
+    attr_reader :sessions, :info, :timeout, :interval, :logger
+
+    DEFAULT_TIMEOUT = 60
+    DEFAULT_INTERVAL = 30
 
     # @param sessions[Array<Session>]
-    def initialize(sessions, timeout = 60, interval: 30, logger: Logger.new(STDOUT))
+    def initialize(sessions, timeout: DEFAULT_TIMEOUT, interval: DEFAULT_INTERVAL, logger: Logger.new(STDOUT))
       @sessions = sessions
-      @timeout  = timeout || 60
-      @interval = interval || 30
+      @timeout  = timeout
+      @interval = interval
       @info     = { killed: 0, live: 0, count: 0 }
       @logger   = logger
     end
