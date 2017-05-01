@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative 'gt06_server/version'
 require_relative 'gt06_server/crc'
 require_relative 'gt06_server/packet'

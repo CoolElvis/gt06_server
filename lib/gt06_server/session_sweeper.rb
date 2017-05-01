@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 require 'concurrent'
+
 module Gt06Server
   class SessionSweeper
     attr_reader :sessions , :info, :timeout, :interval, :logger
@@ -8,22 +11,23 @@ module Gt06Server
       @sessions = sessions
       @timeout  = timeout || 60
       @interval = interval || 30
-      @info     = {killed: 0, live:0, count:0}
+      @info     = { killed: 0, live: 0, count: 0 }
       @logger   = logger
     end
 
     def run
       timer = Concurrent::TimerTask.new(execution_interval: @interval) do
         @sessions.each_pair do |key, session|
-          if expired_session?(session)
-            unless session.socket.closed?
-              session.socket.setsockopt(Socket::SOL_SOCKET, Socket::SO_LINGER, [1, 0].pack('ii'))
-              session.socket.close
-            end
-            @info[:killed] += 1
-            @sessions.delete(key)
-            @logger.debug "Session #{session.inspect} has been killed"
+          next unless expired_session?(session)
+
+          unless session.socket.closed?
+            session.socket.setsockopt(Socket::SOL_SOCKET, Socket::SO_LINGER, [1, 0].pack('ii'))
+            session.socket.close
           end
+
+          @info[:killed] += 1
+          @sessions.delete(key)
+          @logger.debug "Session #{session.inspect} has been killed"
         end
 
         @info[:live] = @sessions.size
@@ -58,6 +62,5 @@ module Gt06Server
         end
       end
     end
-
   end
 end

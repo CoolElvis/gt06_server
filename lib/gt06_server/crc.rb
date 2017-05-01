@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class CRC16
   def self.calc(data)
     lookup_table = [

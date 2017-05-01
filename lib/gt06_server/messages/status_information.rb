@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Gt06Server
   module Messages
     # 5.3. Alarm Packet (Combined information packet of GPS, LBS and Status)
