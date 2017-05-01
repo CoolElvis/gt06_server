@@ -9,10 +9,10 @@ Gem::Specification.new do |spec|
   spec.authors = ['CoolElvis']
   spec.email   = ['elvisplus2@gmail.com']
 
-  spec.summary                       = 'TCP server for gt06(TK100) gps tracker'
-  spec.description                   = 'TCP server for gt06(TK100) gps tracker'
-  spec.homepage                      = 'https://github.com/CoolElvis/gt06_server'
-  spec.license                       = 'MIT'
+  spec.summary     = 'TCP server for gt06(TK100) gps tracker'
+  spec.description = 'TCP server for gt06(TK100) gps tracker'
+  spec.homepage    = 'https://github.com/CoolElvis/gt06_server'
+  spec.license     = 'MIT'
 
   raise 'RubyGems 2.0 or newer is required to protect against public gem pushes.' unless spec.respond_to?(:metadata)
 
