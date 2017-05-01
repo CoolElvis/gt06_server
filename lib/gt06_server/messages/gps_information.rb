@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Gt06Server
   module Messages
     class GpsInformation < BinData::Record
@@ -38,6 +39,14 @@ module Gt06Server
         bit1 :latitude_bit          # South Latitude, North Latitude
         bit10 :course
       end
+    end
+
+    def lat
+      latitude_bit ? latitude : (latitude * -1)
+    end
+
+    def lon
+      longitude_bit ? longitude : (longitude * -1)
     end
   end
 end

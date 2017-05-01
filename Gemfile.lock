@@ -5,6 +5,7 @@ PATH
       bindata (~> 2.3)
       celluloid-io (~> 0.17.3)
       concurrent-ruby (~> 1.0)
+      redis (~> 3.3)
 
 GEM
   remote: https://rubygems.org/
@@ -59,13 +60,15 @@ GEM
     coderay (1.1.1)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
-    concurrent-ruby (1.0.3)
+    concurrent-ruby (1.0.4)
+    concurrent-ruby (1.0.4-java)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     docile (1.1.5)
     equalizer (0.0.11)
     ffi (1.9.10-java)
     hitimes (1.2.4)
+    hitimes (1.2.4-java)
     i18n (0.7.0)
     ice_nine (0.11.2)
     json (1.8.3)
@@ -75,7 +78,8 @@ GEM
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (3.2.0)
-    nio4r (1.2.1)
+    nio4r (2.0.0)
+    nio4r (2.0.0-java)
     parser (2.3.1.2)
       ast (~> 2.2)
     powerpack (0.1.1)
@@ -93,6 +97,7 @@ GEM
       pry (~> 0.10)
     rainbow (2.1.0)
     rake (11.2.2)
+    redis (3.3.2)
     reek (4.1.0)
       codeclimate-engine-rb (~> 0.3.1)
       parser (~> 2.3.1, >= 2.3.1.2)
@@ -145,4 +150,4 @@ DEPENDENCIES
   rubocop
 
 BUNDLED WITH
-   1.13.6
+   1.14.3

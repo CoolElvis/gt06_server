@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Gt06Server
   class Session
     class SessionError < RuntimeError; end
@@ -6,11 +7,12 @@ module Gt06Server
     attr_reader :terminal_id, :socket, :info, :logger, :addr
 
     # @param socket [TCPSocket]
+    # @param logger [Logger]
     def initialize(socket, logger: Logger.new(STDOUT))
       @socket      = socket
       @addr        = socket.peeraddr
       @terminal_id = ''
-      @info        = { received_count: 0, sent_count: 0, last_received_at: Time.now}
+      @info        = { received_count: 0, sent_count: 0, last_received_at: Time.now }
       @logger      = logger
 
       logger.debug 'New session has been created'
@@ -50,14 +52,14 @@ module Gt06Server
       @info[:received_count] += 1
       @info[:last_received_at] = Time.now
 
-
-      block.yield({terminal_id: @terminal_id}.merge!(pack.payload.snapshot))
+      block.yield({ terminal_id: @terminal_id }.merge!(pack.payload.snapshot))
 
       ack_pack = Protocol.replay_on(pack)
-      if ack_pack
-        @socket.write(ack_pack.to_binary_s)
-        @info[:sent_count] += 1
-      end
+
+      return unless ack_pack
+
+      @socket.write(ack_pack.to_binary_s)
+      @info[:sent_count] += 1
     end
   end
 end
