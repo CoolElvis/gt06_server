@@ -8,16 +8,16 @@ gemspec
 gem 'rake'
 
 group :test do
-  gem 'minitest'
   gem 'codeclimate-test-reporter', require: nil
+  gem 'minitest'
 end
 
 group :development do
+  gem 'capistrano'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rbenv'
   gem 'pry'
   gem 'pry-byebug'
-  gem 'rubocop', require: false
   gem 'reek', require: false
-  gem 'capistrano'
-  gem 'capistrano-rbenv'
-  gem 'capistrano-bundler'
+  gem 'rubocop', require: false
 end
