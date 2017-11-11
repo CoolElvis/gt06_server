@@ -15,7 +15,7 @@ module Gt06Server
         uint32be :coord
 
         def get
-          coord.to_f / 30_000 / 60
+          (coord.to_f / 30_000 / 60).round(6)
         end
 
         # TODO

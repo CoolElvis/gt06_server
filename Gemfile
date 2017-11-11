@@ -17,7 +17,4 @@ group :development do
   gem 'pry-byebug'
   gem 'rubocop', require: false
   gem 'reek', require: false
-  gem 'capistrano'
-  gem 'capistrano-rbenv'
-  gem 'capistrano-bundler'
 end

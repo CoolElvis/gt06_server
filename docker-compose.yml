@@ -1,7 +1,0 @@
-version: '2'
-
-services:
-  redis:
-    image: redis:latest
-    ports:
-      - localhost:6379:6379

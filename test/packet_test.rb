@@ -59,7 +59,7 @@ module Gt06Server
       assert_equal(content.date_time.to_hex, '0b081d112e10')
       assert_equal(content.gps.quantity_satellites.to_hex, 'cc')
       assert_equal(content.gps.latitude.to_hex, '027ac7eb')
-      assert_equal(content.gps.latitude, 23.111668333333334)
+      assert_equal(content.gps.latitude, 23.111668)
       assert_equal(content.gps.longitude.to_hex, '0c465849')
       assert_equal(content.gps.longitude, 114.409285)
       assert_equal(content.gps.speed.to_hex, '00')
