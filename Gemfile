@@ -9,7 +9,7 @@ gem 'rake'
 
 group :test do
   gem 'minitest'
-  gem 'codeclimate-test-reporter', require: nil
+  # gem 'codeclimate-test-reporter', require: nil
 end
 
 group :development do
