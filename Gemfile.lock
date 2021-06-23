@@ -14,7 +14,7 @@ GEM
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
       thread_safe (~> 0.3, >= 0.3.1)
-    bindata (2.4.4)
+    bindata (2.4.10)
     byebug (11.0.0)
     celluloid (0.17.4)
       celluloid-essentials
